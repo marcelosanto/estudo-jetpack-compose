@@ -28,7 +28,10 @@ class MainActivity : ComponentActivity() {
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    MyButton()
+                    var count by remember { mutableStateOf(0) }
+                    MyButton(count) {
+                        count++
+                    }
                 }
             }
         }
@@ -37,13 +40,12 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun MyButton() {
+fun MyButton(count: Int, updateCount: (Int) -> Unit) {
     val context = LocalContext.current
-    var count by remember { mutableStateOf(0) }
 
     Button(
         onClick = {
-            count++
+            updateCount(count)
             Toast.makeText(context, "Count is: $count", Toast.LENGTH_SHORT).show()
         },
         contentPadding = PaddingValues(16.dp),
